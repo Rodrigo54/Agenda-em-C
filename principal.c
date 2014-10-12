@@ -1,3 +1,12 @@
+/* AGENDA EM LIMGUAGUEM C
+ *
+ * Agenda feita para obtenção de nota parcial na mateira de 'Algoritmos e Estrutura de Dados'.
+ *
+ * Autor: Rodrigo Alves Mesquita
+ * Aluno do 3° periodo do curso de Bacharel em Ciências da Computação na Faculdade Pitágoras
+ *
+ */
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -29,7 +38,7 @@ FILE *arq;              // declarar a variável(*arq) como ponteiro do arquivo(FI
 void Incluir(void){
      int cont = 0;   //cont sera a variavel contadora
      int retorno;    //retorno seve para definir se fwrite funcionou
-     char op = 's';  //seve para definir a opção na função Validaresp()
+     char op = 's';  //seve para definir a opção na função AddMais()
 
      arq = fopen("agenda.txt", "a");// fopen cria arquivo de entrada
      if (arq == NULL){//caso o sistema não consiga criar o arquivo
