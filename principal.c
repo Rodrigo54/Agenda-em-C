@@ -22,7 +22,7 @@ void Formata(void);    // função para Apaga todos os contatos na agenda
 
 /*============  Variaveis Globais  =============*/
 static int qtd = 0;     // qtd é uma variavel do tipo estatica que conta a quantidade de contatos incritos
-contatos Tab[TAM];      // agora contatos recebe o valor de Tab[100] que é o total de contatos
+contatos max[TAM];      // agora max[100] é um vetor do tipo contatos definido com o typedef
 FILE *arq;              // declarar a variável(*arq) como ponteiro do arquivo(FILE)
 
 /*========  Incluir Contatos na Agenda  ===========*/
@@ -39,14 +39,16 @@ void Incluir(void){
      }
      while ((cont < TAM) && (op == 's')){
            printf (" Digite o nome: ");
-           gets(Tab[cont].nome);
+           gets(max[cont].nome);
            printf (" Digite o numero: ");
-           gets(Tab[cont].fone);
+           gets(max[cont].fone);
            printf (" Digite o E-mail: ");
-           gets(Tab[cont].email);
+           gets(max[cont].email);
 
-           // fwrite grava 1 contato na struct Agenda
-           retorno = fwrite (&Tab[cont], sizeof(struct Agenda) ,1,arq);
+           /* fwrite grava 1 contato na struct Agenda
+           essa lilha pode ser escrita da seguinte forma:
+           retorno = fwrite (&max[cont], sizeof(struct Agenda) ,1,arq);*/
+           retorno = fwrite (&max[cont], sizeof(contatos) ,1,arq);
            // fwrite retornara um valor int 1 para sucesso e 0 para fracasso
            if (retorno == 1) {
                printf("\n Gravacao ok! ");
@@ -82,20 +84,20 @@ void Formata() {
 
 /*=============  Organizar em ordem alfabetica  ==========*/
 void Organizar(void){//algoritmo de ordenação do tipo selection sort (ordenação por seleção)
-     contatos vet;
+     contatos vet; //vet é um variavel do tipo struct Agenda
      int aux,i,j,k,retorno;
      char *str, *str2, *straux;//o asterisco [*] indica que a variavel é uma string
      aux = qtd; // aux recebe a quantidade de contatos inscritos
      // Rotina de ordenação
      for (i = 0 ; i < aux ; i++){
-         str = Tab[i].nome;//a variavel str recebe o primeio contato
+         str = max[i].nome;//a variavel str recebe o primeio contato
          for (j = i+1 ; j < aux ; j++){
-             str2 = Tab[j].nome;//a variavel str2 recebe o segundo contato
+             str2 = max[j].nome;//a variavel str2 recebe o segundo contato
              //strcmp faz a comparação entre as strings onde 0 são strings iguais
              if ( strcmp ( str, str2 ) > 0 ){
-                 vet = Tab[i];
-                 Tab[i] = Tab[j];
-                 Tab[j] = vet;
+                 vet = max[i];
+                 max[i] = max[j];
+                 max[j] = vet;
              }
          }
      }
@@ -107,7 +109,7 @@ void Organizar(void){//algoritmo de ordenação do tipo selection sort (ordenação 
         exit(1);//caso esse erro ocorra este comando encerra o programa
      }
      for (k = 0 ; k < aux ; k++){
-           retorno = fwrite (&Tab[k], sizeof(struct Agenda) ,1,arq);
+           retorno = fwrite (&max[k], sizeof(contatos) ,1,arq);
            if (retorno != 1) { //se fwrite retornar com erro
                printf("\n ERRO! ");//sera mostrada esta mensagen
            }
@@ -130,16 +132,16 @@ void Pesquisar(void){
      }
      printf (" Digite o nome: ");// para procurar contato pelo nome
      gets(nome);
-     retorno = fread(&Tab[i], sizeof(struct Agenda), 1, arq);//fread le apenas 1 contato do arquivo
+     retorno = fread(&max[i], sizeof(contatos), 1, arq);//fread le apenas 1 contato do arquivo
      while (retorno == 1){//o retorno recebe a quantidade de contatos lidos no fread
-         if (strcmp(nome, Tab[i].nome) == 0 ){//strcmp compara as strings das variaveis
-            printf("\n Nome....: %s",Tab[i].nome);
-            printf("\n Fone....: %s",Tab[i].fone);
-            printf("\n E-mail..: %s\n ",Tab[i].email);
+         if (strcmp(nome, max[i].nome) == 0 ){//strcmp compara as strings das variaveis
+            printf("\n Nome....: %s",max[i].nome);
+            printf("\n Fone....: %s",max[i].fone);
+            printf("\n E-mail..: %s\n ",max[i].email);
             cont++;
          }
      i++;
-     retorno = fread(&Tab[i], sizeof(struct Agenda), 1, arq);//fread vai ler o proximo contato
+     retorno = fread(&max[i], sizeof(contatos), 1, arq);//fread vai ler o proximo contato
      }
      if(cont == 0){//se strcmp não encontrar strings iguais
         printf("Nao ha contatos com este nome!\n ");//sera mostrada essa mensagen
@@ -158,13 +160,13 @@ void Listar(void){
        getch();//espera que o usuário pressione uma tecla
        exit(1);//caso esse erro ocorra este comando encerra o programa
     }
-    retorno = fread(&Tab[i], sizeof(struct Agenda), 1, arq);//fread le apenas 1 contato do arquivo
+    retorno = fread(&max[i], sizeof(contatos), 1, arq);//fread le apenas 1 contato do arquivo
     while (retorno == 1){ //o retorno recebe a quantidade de contatos lidos no fread
-      printf("\n Nome....: %s",Tab[i].nome);
-      printf("\n Fone....: %s",Tab[i].fone);
-      printf("\n E-mail..: %s\n",Tab[i].email);
+      printf("\n Nome....: %s",max[i].nome);
+      printf("\n Fone....: %s",max[i].fone);
+      printf("\n E-mail..: %s\n",max[i].email);
       i++;
-      retorno = fread(&Tab[i], sizeof(struct Agenda), 1, arq);//fread vai ler o proximo contato
+      retorno = fread(&max[i], sizeof(contatos), 1, arq);//fread vai ler o proximo contato
     }
     printf(" \n\n %d Contatos salvos!\n ", i);
     getch();//espera que o usuário pressione uma tecla
@@ -224,7 +226,7 @@ void menu(void){
 int main (){
     int var;
     system("title AGENDA");
-    system("color 9f");
+    system("color 1f");// Define a o plano de Fundo Azul Marinho e o texto em Branco
     setlocale(LC_ALL, "Portuguese");//Define no console o idioma Portugues
     printf("\n\n\t\tAGENDA EM LINGUAGUEM C\n\n");
     printf("\tVeja todas as funções disponiveis no menu.\n");
