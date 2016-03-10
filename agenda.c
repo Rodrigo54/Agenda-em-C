@@ -12,10 +12,31 @@
 #include <stdlib.h>
 #include "agenda.h"
 
+FILE* abrirArquivo(char *caminho, char modo){
+  FILE *arquivo;
+  switch(modo){
+    case 'g':
+      arquivo = fopen(caminho, "wt");
+      break;
+    case 'l':
+      arquivo = fopen(caminho, "rt");
+      break;
+    case 'a':
+      arquivo = fopen(caminho, "a");
+      break;
+  }
+  if (arquivo == NULL){//caso o sistema não consiga criar o arquivo
+    wprintf(L"Erro!\nO arquivo da agenda não pode ser aberto!\n");//sera mostrada esta mensagen
+    getch();// espera que o usuário pressione uma tecla
+    exit(1);//caso esse erro ocorra este comando encerra o programa
+  }
+  _setmode(_fileno(arquivo), UTF_8); //Define nos arquivos o conjunto UTF8 de caracteres
+  return arquivo;
+}
+
 void salvar()
 {
-  arq = fopen ("agenda.txt", "w+");
-  _setmode(_fileno(arq), UTF_8); //Define nos arquivos o conjunto UTF8 de caracteres
+  arq = abrirArquivo("agenda.txt", 'g');
   fwprintf(arq, L"\n");
   fwprintf(arq, L"\t  █████╗  ██████╗ ███████╗███╗   ██╗██████╗  █████╗ \n");
   fwprintf(arq, L"\t ██╔══██╗██╔════╝ ██╔════╝████╗  ██║██╔══██╗██╔══██╗\n");
@@ -29,35 +50,23 @@ void salvar()
 
 /*========  Incluir Contatos na Agenda  ===========*/
 void Incluir(void){
-     int cont = 0;   //cont sera a variavel contadora
-     int retorno;    //retorno seve para definir se fwrite funcionou
-     char op = 's';  //seve para definir a opção na função AddMais()
+    contato pessoa;
+   int retorno;    //retorno seve para definir se fwrite funcionou
+   char op = 's';  //seve para definir a opção na função AddMais()
 
-     arq = fopen("agenda.txt", "a");// fopen cria arquivo de entrada
-     if (arq == NULL){//caso o sistema não consiga criar o arquivo
-        wprintf(L"Erro!\nO arquivo da lista não pode ser aberto!\n");//sera mostrada esta mensagen
-        getch();// espera que o usuário pressione uma tecla
-        exit(1);//caso esse erro ocorra este comando encerra o programa
-     }
-     while ((cont < TAM) && (op == 's')){
+     arq = abrirArquivo("agenda.txt", 'a');
+     while (op == 's'){
            wprintf(L" Digite o nome: ");
-           gets(max[cont].nome);
+           wscanf(L"%ls", pessoa.nome);
+           fwprintf(arq, L"\n Nome....: %s", pessoa.nome);
            wprintf(L" Digite o numero: ");
-           gets(max[cont].fone);
+           wscanf(L"%ls", pessoa.fone);
+           fwprintf(arq, L"\n Fone....: %s", pessoa.fone);
            wprintf(L" Digite o E-mail: ");
-           gets(max[cont].email);
-
-           /* fwrite grava 1 contato na struct Agenda
-           essa lilha pode ser escrita da seguinte forma:
-           retorno = fwrite (&max[cont], sizeof(struct Agenda) ,1,arq);*/
-           retorno = fwrite (&max[cont], sizeof(contatos) ,1,arq);
-           // fwrite retornara um valor int 1 para sucesso e 0 para fracasso
-           if (retorno == 1) {
-               wprintf(L"\n Gravacao ok! ");
-           }
-           cont++;//enquanto cont for menor 100 adiciona mais um contato
+           wscanf(L"%ls", pessoa.email);
+           fwprintf(arq, L"\n E-mail..: %s", pessoa.email);
+           wprintf(L"\n Gravacao ok! ");
            op = AddMais();//chama a função que pergunta se deseja inserir novos contatos
-           qtd++;//acrecenta 1 contato a mais
      }
      fclose (arq);//fecha o arquivo agenda.txt
 }
@@ -85,7 +94,7 @@ void Formata() {
 }
 
 /*=============  Organizar em ordem alfabetica  ==========*/
-void Organizar(void){//algoritmo de ordenação do tipo selection sort (ordenação por seleção)
+/*void Organizar(void){//algoritmo de ordenação do tipo selection sort (ordenação por seleção)
      contatos vet; //vet é um variavel do tipo struct Agenda
      int aux,i,j,k,retorno;
      char *str, *str2, *straux;//o asterisco [*] indica que a variavel é uma string
@@ -121,8 +130,8 @@ void Organizar(void){//algoritmo de ordenação do tipo selection sort (ordenaç
      getch();//espera que o usuário pressione uma tecla
 }
 
-/*============== Pesquisar contato pelo nome =====================*/
-void Pesquisar(void){
+*//*============== Pesquisar contato pelo nome =====================*/
+/*void Pesquisar(void){
      int i=0, retorno=1, cont=0;//
      char nome[50],op;//A variavel nome se refere ao nome a ser pesquisado
 
@@ -150,30 +159,36 @@ void Pesquisar(void){
      }
      getch();//espera que o usuário pressione uma tecla
      fclose(arq);//fecha o arquivo agenda.txt
-}
+}*/
 
 /*================== Lista os contatos cadastrados ======================*/
 void Listar(void){
-    int i = 0, retorno;
     wchar_t *c;
 
-    arq = fopen("agenda.txt", "r");//fopen abre o arquivo no modo leitura "r"
-  _setmode(_fileno(arq), UTF_8); //Define nos arquivos o conjunto UTF8 de caracteres
-    if (arq == NULL){//caso o SO não consiga abrir o arquivo
-       wprintf(L"Erro!\nO arquivo da lista não pode ser aberto!\n");//sera mostrada esta mensagens
-       getch();//espera que o usuário pressione uma tecla
-       exit(1);//caso esse erro ocorra este comando encerra o programa
-    }
-  while (!feof(arq))
-  {
+    arq = abrirArquivo("agenda.txt",'l');
+    while (!feof(arq))
+    {
       fwscanf(arq, L"%c",&c);
       wprintf(L"%c",c);
     }
-    wprintf(L" \n\n %d Contatos salvos!\n ", i);
+    //wprintf(L" \n\n %d Contatos salvos!\n ", i);
     getch();//espera que o usuário pressione uma tecla
     fclose(arq);//fecha o arquivo agenda.txt
 }
 
+void titulo(char output){
+  if (output == 't') //se o output for a tela
+  {
+    wprintf(L"\n");
+    wprintf(L"\t  █████╗  ██████╗ ███████╗███╗   ██╗██████╗  █████╗ \n");
+    wprintf(L"\t ██╔══██╗██╔════╝ ██╔════╝████╗  ██║██╔══██╗██╔══██╗\n");
+    wprintf(L"\t ███████║██║  ███╗█████╗  ██╔██╗ ██║██║  ██║███████║\n");
+    wprintf(L"\t ██╔══██║██║   ██║██╔══╝  ██║╚██╗██║██║  ██║██╔══██║\n");
+    wprintf(L"\t ██║  ██║╚██████╔╝███████╗██║ ╚████║██████╔╝██║  ██║\n");
+    wprintf(L"\t ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚═════╝ ╚═╝  ╚═╝\n");
+    wprintf(L"\n\t\t\tAGENDA EM LINGUAGUEM C\n\n");
+  }
+}
 /*========== Sobre os Autores ================*/
 void Sobre(void){
     wprintf(L"\n\n\t\tAGENDA EM LINGUAGUEM C\n\n");
@@ -187,22 +202,22 @@ void menu(void){
     char op;//variavel de opção
     do{
         system("cls");// limpar tela
-        wprintf(L"\n\n\t\tAGENDA EM LINGUAGUEM C\n");
+        titulo('t');
         wprintf(L"\n 1 = Incluir\n 2 = Listar\n 3 = Organizar por ordem alfabetica\n 4 = Pesquisar por nome\n");
         wprintf(L" 5 = Formatar lista\n 6 = Sobre\n 7 = Voltar\n\n");
         op = getch();
         switch(op){
             case '1':
-                salvar();
+                Incluir();
                 break;
             case '2':
                 Listar();
                 break;
             case '3':
-                Organizar();
+//                Organizar();
                 break;
             case '4':
-                Pesquisar();
+//                Pesquisar();
                 break;
             case '5':
                 Formata();

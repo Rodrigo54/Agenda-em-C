@@ -9,17 +9,7 @@ int main()
     system("title AGENDA");
     system("color 1f");// Define a o plano de Fundo Azul Marinho e o texto em Branco
     int var;
-
-    wprintf(L"\n");
-    wprintf(L"\t  █████╗  ██████╗ ███████╗███╗   ██╗██████╗  █████╗ \n");
-    wprintf(L"\t ██╔══██╗██╔════╝ ██╔════╝████╗  ██║██╔══██╗██╔══██╗\n");
-    wprintf(L"\t ███████║██║  ███╗█████╗  ██╔██╗ ██║██║  ██║███████║\n");
-    wprintf(L"\t ██╔══██║██║   ██║██╔══╝  ██║╚██╗██║██║  ██║██╔══██║\n");
-    wprintf(L"\t ██║  ██║╚██████╔╝███████╗██║ ╚████║██████╔╝██║  ██║\n");
-    wprintf(L"\t ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚═════╝ ╚═╝  ╚═╝\n");
-
-
-    wprintf(L"\n\n\t\tAGENDA EM LINGUAGUEM C\n\n");
+    titulo('t');
     wprintf(L"\tVeja todas as funções disponiveis no menu.\n");
     wprintf(L"\tUse os numeros para selecionar a opção desejada.\n");
     wprintf(L"\tPressione qualquer tecla para continuar ou\n\tEspaço para sair do programa agora.\n\t");
