@@ -45,12 +45,21 @@ void Incluir(void){
     titulo('t');
     wprintf(L"\n\tDigite o nome: ");
     wscanf(L"%ls", pessoa.nome);
+    // Limpar buffer do teclado
+    //fflush(stdin); // Para Windows
+    __fpurge(stdin); // Linux
     fwprintf(arq, L"\n\tNome....: %s", pessoa.nome);
     wprintf(L"\n\tDigite o numero: ");
     wscanf(L"%ls", pessoa.fone);
+    // Limpar buffer do teclado
+    //fflush(stdin); // Para Windows
+    __fpurge(stdin); // Linux
     fwprintf(arq, L"\n\tFone....: %s", pessoa.fone);
     wprintf(L"\n\tDigite o E-mail: ");
     wscanf(L"%ls", pessoa.email);
+    // Limpar buffer do teclado
+    //fflush(stdin); // Para Windows
+    __fpurge(stdin); // Linux
     fwprintf(arq, L"\n\tE-mail..: %s", pessoa.email);
     wprintf(L"\n\tGravacao ok! ");
     fwprintf(arq, L"\n");
