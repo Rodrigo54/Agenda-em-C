@@ -1,6 +1,6 @@
 Agenda em C
 ===========
-[![Build Status](https://img.shields.io/travis/joyent/node/v0.6.svg)](http://github.com/Rodrigo54/Agenda-em-C)
+[![Build Status](https://travis-ci.org/Rodrigo54/Agenda-em-C.svg?branch=master)](https://travis-ci.org/Rodrigo54/Agenda-em-C)
 [![Laguagem C](https://img.shields.io/badge/laguagem-%20C%20-yellow.svg)](http://github.com/Rodrigo54/Agenda-em-C)
 
 Agenda feita para obtenção de nota parcial na materia de `Algoritmos e Estrutura de Dados 1`.
