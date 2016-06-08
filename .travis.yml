@@ -1,0 +1,6 @@
+language: c
+compiler: gcc
+script: 
+  - sudo apt-get install cbp2make
+  - cbp2make -in project.cbp -out Makefile
+  - make 
