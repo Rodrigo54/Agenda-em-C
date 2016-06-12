@@ -1,8 +1,2 @@
 language: c
 compiler: gcc
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install cbp2make
-script: 
-  - cbp2make -in project.cbp -out Makefile
-  - make 
