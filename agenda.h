@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef OS_WINDOWS
+#ifdef _WIN32
    //define something for Windows
    #include <conio.h>
 #else
