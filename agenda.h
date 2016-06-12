@@ -4,12 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef _WIN32
-   //define something for Windows
-   #include <conio.h>
-#else
-  //define it for a Unix machine
-  #include <curses.h>
+#include <curses.h>
+// #include <conio.h>
 #endif
 #include <wchar.h>  //Biblioteca para conjunto UTF8 de caracteres
 #include <io.h>     //Biblioteca para conjunto UTF8 de caracteres
