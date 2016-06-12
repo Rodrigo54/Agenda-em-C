@@ -3,5 +3,5 @@ compiler:
   - clang
   - gcc
 script:
-  - make
+  - make Release
 
