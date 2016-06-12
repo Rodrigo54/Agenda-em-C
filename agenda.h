@@ -4,7 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <conio.h>
+#ifdef OS_WINDOWS
+   //define something for Windows
+   #include <conio.h>
+#else
+  //define it for a Unix machine
+  #include <curses.h>
+#endif
 #include <wchar.h>  //Biblioteca para conjunto UTF8 de caracteres
 #include <io.h>     //Biblioteca para conjunto UTF8 de caracteres
 #include <fcntl.h>  //Biblioteca para conjunto UTF8 de caracteres
