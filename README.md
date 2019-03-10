@@ -2,8 +2,18 @@ Agenda em C
 ===========
 [![Build Status](https://travis-ci.org/Rodrigo54/Agenda-em-C.svg?branch=master)](https://travis-ci.org/Rodrigo54/Agenda-em-C)
 [![Laguagem C](https://img.shields.io/badge/laguagem-%20C%20-yellow.svg)](http://github.com/Rodrigo54/Agenda-em-C)
-[![agenda em c.jpg](https://s4.postimg.org/9ig4a7qj1/agenda_em_c.jpg)](https://postimg.org/image/m9uagq0ax/)
+[![requirement](https://img.shields.io/badge/IDE-Code%3A%3ABlocks-orange.svg)](http://www.codeblocks.org/downloads)
+
+![Imgur](https://i.imgur.com/ZPCvYh6.gif)
+
 Agenda feita para obtenção de nota parcial na materia de `Algoritmos e Estrutura de Dados 1`.
+
+## Sobre o Aplicativo
+
+* Feito em Linguagem  C
+* Plataforma Windows
+* IDE Code::Blocks
+* Makefile gerado com [cbp2make](https://sourceforge.net/projects/cbp2make/) saiba mais [aqui](https://stackoverflow.com/questions/26386335/codeblocks-build-from-bash)
 
 ## Autor
 
