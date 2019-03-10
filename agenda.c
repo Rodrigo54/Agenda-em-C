@@ -9,98 +9,111 @@
 
 #include "agenda.h"
 
-FILE* abrirArquivo(char *caminho, char modo){
+// Limpar buffer do teclado
+void limpabuffer()
+{
+#if _WIN32
+  fflush(stdin); // Para Windows
+#else
+  __fpurge(stdin); // Linux
+#endif
+}
+
+FILE *abrirArquivo(char *caminho, char modo)
+{
   FILE *arquivo;
-  switch(modo){
-    case 'g':
-      arquivo = fopen(caminho, "wt");
-      break;
-    case 'l':
-      arquivo = fopen(caminho, "rt");
-      break;
-    case 'a':
-      arquivo = fopen(caminho, "a");
-      break;
-    case 'f':
-      arquivo = fopen(caminho, "w+");
-      break;
+  switch (modo)
+  {
+  case 'g':
+    arquivo = fopen(caminho, "wt");
+    break;
+  case 'l':
+    arquivo = fopen(caminho, "rt");
+    break;
+  case 'a':
+    arquivo = fopen(caminho, "a");
+    break;
+  case 'f':
+    arquivo = fopen(caminho, "w+");
+    break;
   }
-  if (arquivo == NULL){//caso o sistema não consiga criar o arquivo
-    wprintf(L"\a\nErro! O arquivo da agenda não pode ser aberto!\n");//sera mostrada esta mensagen
-    getch();// espera que o usuário pressione uma tecla
-    exit(1);//caso esse erro ocorra este comando encerra o programa
+  if (arquivo == NULL)
+  {                                                                   //caso o sistema não consiga criar o arquivo
+    wprintf(L"\a\nErro! O arquivo da agenda não pode ser aberto!\n"); //sera mostrada esta mensagen
+    getch();                                                          // espera que o usuário pressione uma tecla
+    exit(1);                                                          //caso esse erro ocorra este comando encerra o programa
   }
   _setmode(_fileno(arquivo), UTF_8); //Define nos arquivos o conjunto UTF8 de caracteres
   return arquivo;
 }
 
 /*========  Incluir Contatos na Agenda  ===========*/
-void Incluir(void){
+void Incluir(void)
+{
   contato pessoa;
-  char op = 's';  //seve para definir a opção na função AddMais()
+  char op = 's'; //seve para definir a opção na função AddMais()
 
   arq = abrirArquivo("agenda.txt", 'a');
-  while (op == 's'){
-    system("cls");// limpar tela
+  while (op == 's')
+  {
+    system("cls"); // limpar tela
     titulo('t');
     wprintf(L"\n\tDigite o nome: ");
     wscanf(L"%ls", pessoa.nome);
-    // Limpar buffer do teclado
-    //fflush(stdin); // Para Windows
-    __fpurge(stdin); // Linux
+    limpabuffer();
     fwprintf(arq, L"\n\tNome....: %s", pessoa.nome);
     wprintf(L"\n\tDigite o numero: ");
     wscanf(L"%ls", pessoa.fone);
-    // Limpar buffer do teclado
-    //fflush(stdin); // Para Windows
-    __fpurge(stdin); // Linux
+    limpabuffer();
     fwprintf(arq, L"\n\tFone....: %s", pessoa.fone);
     wprintf(L"\n\tDigite o E-mail: ");
     wscanf(L"%ls", pessoa.email);
-    // Limpar buffer do teclado
-    //fflush(stdin); // Para Windows
-    __fpurge(stdin); // Linux
+    limpabuffer();
     fwprintf(arq, L"\n\tE-mail..: %s", pessoa.email);
     wprintf(L"\n\tGravacao ok! ");
     fwprintf(arq, L"\n");
-    do {
-      wprintf(L"\n\tDeseja inserir novos dados? S/N? " );
+    do
+    {
+      wprintf(L"\n\tDeseja inserir novos dados? S/N? ");
       op = getch();
       wprintf(L"\n");
     } while (op != 's' && op != 'n');
-   }
-  fclose (arq);//fecha o arquivo agenda.txt
+  }
+  fclose(arq); //fecha o arquivo agenda.txt
 }
 
 /*=====================  Apagar tudo  ====================*/
-void Formata() {
-    /* w+ abre um arquivo para leitura e escrita.
+void Formata()
+{
+  /* w+ abre um arquivo para leitura e escrita.
     Se o arquivo não existir, o sistema operacional tentará criá-lo.
     Se o arquivo existir, todo o seu conteúdo será substituído pelo novo conteúdo.*/
-    arq = abrirArquivo("agenda.txt", 'f');
-    wprintf(L"\n\tLista limpa!\n ");
-    titulo('a');
-    fclose(arq);//fecha o arquivo agenda.txt
-    getch();// espera que o usuário pressione uma tecla
+  arq = abrirArquivo("agenda.txt", 'f');
+  wprintf(L"\n\tLista limpa!\n ");
+  titulo('a');
+  fclose(arq); //fecha o arquivo agenda.txt
+  getch();     // espera que o usuário pressione uma tecla
 }
 
 /*================== Lista os contatos cadastrados ======================*/
-void Listar(void){
-    wchar_t *c;
+void Listar(void)
+{
+  wchar_t *c;
 
-    system("cls");// limpar tela
-    arq = abrirArquivo("agenda.txt",'l');
-    while (!feof(arq))
-    {
-      fwscanf(arq, L"%c",&c);
-      wprintf(L"%c",c);
-    }
-    wprintf(L"\n\t");
-    getch();//espera que o usuário pressione uma tecla
-    fclose(arq);//fecha o arquivo agenda.txt
+  system("cls"); // limpar tela
+  arq = abrirArquivo("agenda.txt", 'l');
+  while (!feof(arq))
+  {
+    fwscanf(arq, L"%c", &c);
+    wprintf(L"%c", c);
+  }
+  wprintf(L"\n\t");
+  getch();     //espera que o usuário pressione uma tecla
+  fclose(arq); //fecha o arquivo agenda.txt
 }
 
-void titulo(char output){
+void titulo(char output)
+{
   if (output == 't') //se o output for a tela
   {
     wprintf(L"\n");
@@ -126,7 +139,8 @@ void titulo(char output){
 }
 
 /*========== Sobre os Autores ================*/
-void Sobre(void){
+void Sobre(void)
+{
   titulo('t');
   wprintf(L"\n\t┌───────── Sobre Este Programa ───────────┐");
   wprintf(L"\n\t│                                         │");
@@ -137,14 +151,16 @@ void Sobre(void){
   wprintf(L"\n\t│  Criado por Rodrigo Alves Mesquita      │");
   wprintf(L"\n\t│                                         │");
   wprintf(L"\n\t└─────────────────────────────────────────┘\n\t");
-  getch();//espera que o usuário pressione uma tecla
+  getch(); //espera que o usuário pressione uma tecla
 }
 
 /*=====================   Menu   =======================*/
-void menu(void){
-  char op;//variavel de opção
-  do{
-    system("cls");// limpar tela
+void menu(void)
+{
+  char op; //variavel de opção
+  do
+  {
+    system("cls"); // limpar tela
     titulo('t');
     wprintf(L"\n\t┌───────────── Menu de Opções ────────────┐");
     wprintf(L"\n\t│                                         │");
@@ -158,38 +174,38 @@ void menu(void){
     wprintf(L"\n\t└─────────────────────────────────────────┘");
     wprintf(L"\n\t");
     op = getch();
-    switch(op){
-      case '0':
-        exit(0);
-        break;
-      case '1':
-        Incluir();
-        break;
-      case '2':
-        Listar();
-        break;
-      case '3':
-        //Organizar();
-        break;
-      case '4':
-        //Pesquisar();
-        break;
-      case '5':
-        Formata();
-        break;
-      case '6':
-        system("cls");
-        Sobre();
-        break;
-      case 27:// 27 corresponde ao esc no teclado conforme Tabela ASCII
-        system("cls");
-        main();
-        break;
-      default:
-        wprintf(L"\a Digite uma opção valida\n");
-        getch();//espera que o usuário pressione uma tecla
-        break;
+    switch (op)
+    {
+    case '0':
+      exit(0);
+      break;
+    case '1':
+      Incluir();
+      break;
+    case '2':
+      Listar();
+      break;
+    case '3':
+      //Organizar();
+      break;
+    case '4':
+      //Pesquisar();
+      break;
+    case '5':
+      Formata();
+      break;
+    case '6':
+      system("cls");
+      Sobre();
+      break;
+    case 27: // 27 corresponde ao esc no teclado conforme Tabela ASCII
+      system("cls");
+      main();
+      break;
+    default:
+      wprintf(L"\a Digite uma opção valida\n");
+      getch(); //espera que o usuário pressione uma tecla
+      break;
     }
-  }
-  while (op);
+  } while (op);
 }

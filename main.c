@@ -4,7 +4,7 @@ int main()
 {
     _setmode(_fileno(stdout), UTF_8); //Define no console o conjunto UTF8 de caracteres
     system("title AGENDA");
-    system("color 0A");// Define a o plano de Fundo Azul Marinho e o texto em Branco
+    system("color 0A"); // Define a o plano de Fundo Azul Marinho e o texto em Branco
     int var;
     titulo('t');
     wprintf(L"\n\t┌─────────────────────────────────────────────────────┐");
@@ -16,7 +16,8 @@ int main()
     wprintf(L"\n\t│                                                     │");
     wprintf(L"\n\t└─────────────────────────────────────────────────────┘\n\t");
     var = getch();
-    if(var == 32) exit(0);// 32 corresponde a espaço no teclado conforme Tabela ASCII
-    menu();// chamando a funçao menu para a main
+    if (var == 32)
+        exit(0); // 32 corresponde a espaço no teclado conforme Tabela ASCII
+    menu();      // chamando a funçao menu para a main
     return 0;
 }
