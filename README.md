@@ -1,5 +1,6 @@
 Agenda em C
 ===========
+[![Build Status](https://dev.azure.com/rodrigo254mix/Agenda-em-C/_apis/build/status/Rodrigo54.Agenda-em-C?branchName=master)](https://dev.azure.com/rodrigo254mix/Agenda-em-C/_build/latest?definitionId=1&branchName=master)
 [![Build Status](https://travis-ci.org/Rodrigo54/Agenda-em-C.svg?branch=master)](https://travis-ci.org/Rodrigo54/Agenda-em-C)
 [![Laguagem C](https://img.shields.io/badge/laguagem-%20C%20-yellow.svg)](http://github.com/Rodrigo54/Agenda-em-C)
 [![requirement](https://img.shields.io/badge/IDE-Code%3A%3ABlocks-orange.svg)](http://www.codeblocks.org/downloads)
